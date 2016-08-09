@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+ARGS=$@
+
 ### Setup the default variables if not defined
 if [ -z $TECTONIC_CONSOLE_VERSION ]; then TECTONIC_CONSOLE_VERSION=v0.1.9; fi
 if [ -z $TECTONIC_DEX_VERSION ]; then TECTONIC_DEX_VERSION=v0.5.1; fi
@@ -41,7 +43,7 @@ function Check_Prerequisites {
 
 function Start_MiniKube {
 	echo `date` - Starting MiniKube ...
-	minikube start --memory 4096 2> /dev/stdout 1> /dev/null
+	minikube start --memory 4096 $ARGS 2> /dev/stdout 1> /dev/null
 
 	echo `date` - Verifying MiniKube Status ...  
 		if [ $(minikube status) == "Running" ]; then
@@ -79,7 +81,14 @@ function Install_Tectonic_Basic {
 	fi
 	
 	if [ -a /tmp/tectonic-console.yaml ]; then
-		sed -i 's@v0.1.6@'$TECTONIC_CONSOLE_VERSION'@g' /tmp/tectonic-console.yaml
+		case `uname -s` in
+		Darwin)
+			sed -i '' -e 's@v0.1.6@'$TECTONIC_CONSOLE_VERSION'@g' /tmp/tectonic-console.yaml
+			;;
+		*)
+			sed 's@v0.1.6@'$TECTONIC_CONSOLE_VERSION'@g' /tmp/tectonic-console.yaml
+			;;
+		esac
 	else
 		echo `date` - ERROR: Could not download manifest into /tmp
 	fi
