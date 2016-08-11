@@ -18,7 +18,7 @@ Set the Variables such as
 
 ```
 # Tectonic Console Version
-export TECTONIC_CONSOLE_VERSION=v0.1.9
+export TECTONIC_CONSOLE_VERSION=v0.2.0
 # Tectonic DEX Version (not yet implemented)
 export TECTONIC_DEX_VERSION=v0.5.1
 # Tectonic.com pull secret
