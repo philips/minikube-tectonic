@@ -4,8 +4,8 @@ set -e
 ARGS=$@
 
 ### Setup the default variables if not defined
-if [ -z $TECTONIC_CONSOLE_VERSION ]; then TECTONIC_CONSOLE_VERSION=v0.1.9; fi
-if [ -z $TECTONIC_DEX_VERSION ]; then TECTONIC_DEX_VERSION=v0.5.1; fi
+TECTONIC_CONSOLE_VERSION=${TECTONIC_CONSOLE_VERSION:-v0.2.0}
+TECTONIC_YAML_URL=${TECTONIC_YAML_URL:-https://tectonic.com/enterprise/docs/1.2.0/deployer/files/tectonic-console.yaml}
 
 function Check_Prerequisites {
 	echo `date` - Starting to check Tectonic on MiniKube requirements ...
@@ -75,18 +75,18 @@ function Install_Tectonic_Basic {
 
 	echo `date` - Downloading Manifests ...
 	if [[ $(which wget ) ]]; then
-		wget -q https://tectonic.com/enterprise/docs/1.2.0/deployer/files/tectonic-console.yaml -O /tmp/tectonic-console.yaml
+		wget -q $TECTONIC_YAML_URL -O /tmp/tectonic-console.yaml
 	elif [[ $(which curl) ]]; then
-		curl -s https://tectonic.com/enterprise/docs/1.2.0/deployer/files/tectonic-console.yaml > /tmp/tectonic-console.yaml
+		curl -s $TECTONIC_YAML_URL > /tmp/tectonic-console.yaml
 	fi
 	
 	if [ -a /tmp/tectonic-console.yaml ]; then
 		case `uname -s` in
 		Darwin)
-			sed -i '' -e 's@v0.1.6@'$TECTONIC_CONSOLE_VERSION'@g' /tmp/tectonic-console.yaml
+			sed -i '' -e 's@v0.1.9@'$TECTONIC_CONSOLE_VERSION'@g' /tmp/tectonic-console.yaml
 			;;
 		*)
-			sed 's@v0.1.6@'$TECTONIC_CONSOLE_VERSION'@g' /tmp/tectonic-console.yaml
+			sed 's@v0.1.9@'$TECTONIC_CONSOLE_VERSION'@g' /tmp/tectonic-console.yaml
 			;;
 		esac
 	else
