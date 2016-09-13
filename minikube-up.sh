@@ -5,7 +5,7 @@ ARGS=$@
 
 ### Setup the default variables if not defined
 TECTONIC_CONSOLE_VERSION=${TECTONIC_CONSOLE_VERSION:-v0.2.0}
-TECTONIC_YAML_URL=${TECTONIC_YAML_URL:-https://tectonic.com/enterprise/docs/1.2.0/deployer/files/tectonic-console.yaml}
+TECTONIC_YAML_URL=${TECTONIC_YAML_URL:-https://tectonic.com/enterprise/docs/latest/deployer/files/tectonic-console.yaml<Paste>}
 
 function Check_Prerequisites {
 	echo `date` - Starting to check Tectonic on MiniKube requirements ...
